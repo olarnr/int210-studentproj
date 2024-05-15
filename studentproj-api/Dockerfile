@@ -17,3 +17,4 @@ COPY --from=build ${EXTRACTED}/snapshot-dependencies/ ./
 COPY --from=build ${EXTRACTED}/application/ ./
 ENTRYPOINT ["java","org.springframework.boot.loader.JarLauncher"]
 
+LABEL org.opencontainers.image.source = "https://github.com/olarnr/int210-studentproj"
