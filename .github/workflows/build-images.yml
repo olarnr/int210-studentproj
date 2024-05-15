@@ -1,0 +1,32 @@
+name: client
+on: 
+  push:
+    branches: [ "main"]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push API
+        uses: docker/build-push-action@v5
+        with:
+          context: studentproj-api
+          push: true
+          tags: ghcr.io/olarnr/studentproj/api
+      - name: Build and push front-end
+        uses: docker/build-push-action@v5
+        with:
+          context: studentproj-fe
+          push: true
+          tags: ghcr.io/olarnr/studentproj/fe
+  

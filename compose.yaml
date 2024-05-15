@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   fe:
-    image: studentproj/fe
+    image: ghcr.io/olarnr/studentproj/fe
     build: studentproj-fe
     networks:
       front-tier:
@@ -25,7 +25,7 @@ services:
     restart: unless-stopped
 
   api:
-    image: studentproj/api
+    image: ghcr.io/olarnr/studentproj/api
     build: 
       context: studentproj-api
       dockerfile: Dockerfile
@@ -45,12 +45,16 @@ services:
     restart: unless-stopped
 
   db:
-    image: studentproj/db
-    build: 
-      context: studentproj-db
-      dockerfile: Dockerfile
+    image: mysql/mysql-server
+    env_file: studentproj-db/env.list
     volumes: 
+      - ./studentproj-db/scripts:/docker-entrypoint-initdb.d
       - db-datadir:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 2s
+      timeout: 2s
+      retries: 20 
     networks:
       back-tier:
         ipv4_address: 172.15.1.5
