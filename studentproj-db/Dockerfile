@@ -7,3 +7,4 @@ ENV MYSQL_DATABASE=school
 
 COPY scripts/ /docker-entrypoint-initdb.d/
 
+HEALTHCHECK --interval=2s --timeout=2s --retries=20 CMD /healthcheck.sh

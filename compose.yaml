@@ -1,0 +1,77 @@
+services:
+  proxy:
+    image: nginx:alpine
+    configs:
+      - source: proxy_config
+        target: /etc/nginx/conf.d/default.conf
+    depends_on:
+      - fe
+      - api
+    networks:
+      front-tier:
+        ipv4_address: 172.15.0.2
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+  fe:
+    image: studentproj/fe
+    build: studentproj-fe
+    networks:
+      front-tier:
+        ipv4_address: 172.15.0.3
+        aliases:
+          - studentproj-fe
+    restart: unless-stopped
+
+  api:
+    image: studentproj/api
+    build: 
+      context: studentproj-api
+      dockerfile: Dockerfile
+    environment:
+      - mysql_url=studentproj-db
+    depends_on:
+      db:
+        condition: service_healthy
+#        condition: service_started
+    networks:
+      front-tier:
+        ipv4_address: 172.15.0.4
+        aliases:
+          - studentproj-api
+      back-tier:
+        ipv4_address: 172.15.1.4
+    restart: unless-stopped
+
+  db:
+    image: studentproj/db
+    build: 
+      context: studentproj-db
+      dockerfile: Dockerfile
+    volumes: 
+      - db-datadir:/var/lib/mysql
+    networks:
+      back-tier:
+        ipv4_address: 172.15.1.5
+        aliases:
+          - studentproj-db
+    restart: unless-stopped
+
+
+configs:
+  proxy_config:
+    file: studentproj-proxy/proxy.conf
+
+volumes:
+  db-datadir:
+
+networks:
+  front-tier:
+    ipam:
+       config:
+         - subnet: "172.15.0.0/24"
+  back-tier:
+    ipam:
+       config:
+         - subnet: "172.15.1.0/24"
