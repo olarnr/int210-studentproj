@@ -16,7 +16,9 @@ services:
 
   fe:
     image: ghcr.io/olarnr/studentproj/fe
-    build: studentproj-fe
+    build: 
+      context: studentproj-fe
+      dockerfile: multi.Dockerfile
     networks:
       front-tier:
         ipv4_address: 172.15.0.3
@@ -28,7 +30,7 @@ services:
     image: ghcr.io/olarnr/studentproj/api
     build: 
       context: studentproj-api
-      dockerfile: Dockerfile
+      dockerfile: multi.Dockerfile
     environment:
       - mysql_url=studentproj-db
     depends_on:
