@@ -17,7 +17,8 @@ services:
   fe:
     image: ghcr.io/olarnr/studentproj/fe
     build: 
-      context: studentproj-fe
+      context: https://github.com/olarnr/int210-studentproj.git#main:studentproj-fe
+#      context: studentproj-fe
       dockerfile: multi.Dockerfile
     networks:
       front-tier:
@@ -29,7 +30,8 @@ services:
   api:
     image: ghcr.io/olarnr/studentproj/api
     build: 
-      context: studentproj-api
+      context: https://github.com/olarnr/int210-studentproj.git#main:studentproj-api
+#      context: studentproj-api
       dockerfile: multi.Dockerfile
     environment:
       - mysql_url=studentproj-db
