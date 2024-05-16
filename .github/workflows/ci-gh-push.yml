@@ -24,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: studentproj-api
-          file: gha.Dockerfile
+          file: studentproj-api/gha.Dockerfile
           tags: ghcr.io/olarnr/studentproj/api
           push: true
 #          cache-from: type=gha
@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: studentproj-fe
-          file: gha.Dockerfile
+          file: studentproj-fe/gha.Dockerfile
           tags: ghcr.io/olarnr/studentproj/fe
           push: true
 #          cache-from: type=gha
