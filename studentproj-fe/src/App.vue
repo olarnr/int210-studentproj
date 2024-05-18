@@ -13,6 +13,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
+  test CI/CD
   <div v-if="code === 200" container mx-auto object-center>
     <table class="border border-spacing-0.5 center">
         <thead class="border bg-slate-100">
