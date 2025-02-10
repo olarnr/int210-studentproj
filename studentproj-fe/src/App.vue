@@ -2,8 +2,8 @@
 import {ref, computed, onBeforeMount} from "vue"
 import {getService} from "./functions/fetchService.js"
 const API_ROOT = import.meta.env.VITE_API_ROOT;
-const students = ref();
-const code = ref();
+const students = ref({});
+const code = ref({});
 
 onBeforeMount(async () => {
   let res = await getService(API_ROOT+"/api/students");
@@ -13,7 +13,11 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  test CI/CD
+  <h1>INT210 Architecture, Integration, Deployment 2024</h1>
+  <!-- <hr> -->
+  <hr style="width: 1000%; margin: .3rem auto; border: 1; border-top: 1px solid #e0e0e0;">
+  <h2>Student Project</h2>
+  <br>
   <div v-if="code === 200" container mx-auto object-center>
     <table class="border border-spacing-0.5 center">
         <thead class="border bg-slate-100">
@@ -35,7 +39,6 @@ onBeforeMount(async () => {
     </table>
   </div>
   <div v-else>
-    <p class="px-5 py-5 text-xl text-red-500">{{ students }}</p>
+    <p class="px-5 py-5 text-xl text-red-500">ERROR: {{ students.error }}</p>
   </div>
-        
 </template>
